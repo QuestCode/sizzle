@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>DR.FUDI.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>Sizzle.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
+		<key>WhatsCookin.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>362FB7491BD2322F00E95756</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>362FB75D1BD2323100E95756</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>362FB7681BD2323100E95756</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>36D206C61BF8073D0094E93E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>36D206CF1BF8073D0094E93E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
