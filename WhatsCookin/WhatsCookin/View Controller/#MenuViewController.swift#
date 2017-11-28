@@ -1,0 +1,153 @@
+//
+//  MenuViewController.swift
+//  FUDI
+//
+//  Created by Devontae Reid on 11/15/15.
+//  Copyright © 2015 Devontae Reid. All rights reserved.
+//
+
+import UIKit
+import Parse
+
+class MenuViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableViewSettings()
+        navigationController?.navigationBarHidden = true
+    }
+    
+private func labelSetup()
+    {
+        let label: UILabel = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.LatoRegular(30)
+        label.textAlignment = .Center
+        label.text = PFUser.currentUser()?.username!.uppercaseString
+        self.view.addSubview(label)
+        self.view.addConstraints([
+            NSLayoutConstraint(item: label, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 20),
+            NSLayoutConstraint(item: label, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1.0, constant: 0),
+            NSLayoutConstraint(item: label, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1.0, constant: 0),
+            NSLayoutConstraint(item: label, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 70)
+            ])
+    }
+
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
+
+extension MenuViewController: UITableViewDataSource, UITableViewDelegate
+{
+    func tableViewSettings()
+    {
+	self.labelSetup()
+        let tableView: UITableView = UITableView()
+        tableView.frame = CGRect(x: 0, y: view.frame.height/4, width: view.frame.width, height: view.frame.height/1.5)
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "menuCell")
+        tableView.backgroundColor = UIColor.clearColor()
+        tableView.separatorColor = UIColor.clearColor()
+        view.addSubview(tableView)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("menuCell", forIndexPath: indexPath) as UITableViewCell
+        cell.backgroundColor = UIColor.clearColor()
+        cell.textLabel?.font = UIFont.LatoLight(20)
+        cell.selectionStyle = .None
+        
+        switch (indexPath.row)
+        {
+        case 0:
+            cell.textLabel?.text = "Main Feed".uppercaseString
+        case 1:
+            cell.textLabel?.text = "My Grocery List".uppercaseString
+        case 2:
+            cell.textLabel?.text = "Favorite Meals".uppercaseString
+        case 3:
+            cell.textLabel?.text = "All Meals".uppercaseString    
+        case 5:
+            cell.textLabel?.text = "Sign Out".uppercaseString
+        default:
+            cell.selectionStyle = .None
+            break
+        }
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 7
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let titleDict = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.LatoRegular(20)]
+        
+        switch (indexPath.row)
+        {
+        case 0:
+            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            appDelegate.centerView?.contentViewController = TabViewController()
+            appDelegate.centerView?.hideMenuViewController()
+        case 1:
+            break
+        case 2:
+            let favMealVC : FavoriteMealsTableViewController = FavoriteMealsTableViewController()
+            favMealVC.title = "Favorite Meals"
+            
+            let favNavController = UINavigationController(rootViewController: favMealVC)
+            favNavController.navigationBar.barTintColor = UIColor.freshEggplant()
+            favNavController.navigationBar.titleTextAttributes = titleDict
+            
+            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            appDelegate.centerView?.contentViewController = favNavController	
+            appDelegate.centerView?.hideMenuViewController()
+        case 3:
+            let allMealsVC : AllMealsViewController = AllMealsViewController()
+            allMealsVC.title = "Favorite Meals"
+            
+            let allMealsNavController = UINavigationController(rootViewController: allMealsVC)
+            allMealsNavController.navigationBar.barTintColor = UIColor.freshEggplant()
+            allMealsNavController.navigationBar.titleTextAttributes = titleDict
+            
+            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            appDelegate.centerView?.contentViewController = allMealsNavController
+            appDelegate.centerView?.hideMenuViewController()            
+        case 5:
+            PFUser.logOut()
+            let loginVC = LoginViewController()
+            self.presentViewController(loginVC, animated: true, completion: nil)
+        default:
+            break
+        }
+    }
+    
+}

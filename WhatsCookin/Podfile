@@ -1,0 +1,17 @@
+use_frameworks!
+
+target "Sizzle" do
+pod 'HMSegmentedControl'
+pod 'FoldingTabBar'
+pod 'Firebase'
+pod 'Firebase/Database'
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
+pod 'GoogleSignIn'
+pod 'pop'
+pod 'NVActivityIndicatorView'
+pod 'Koloda'
+pod 'BubbleTransition'
+pod 'JSSAlertView'
+pod 'KDCircularProgress'
+end

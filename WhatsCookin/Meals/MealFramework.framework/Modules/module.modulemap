@@ -1,0 +1,10 @@
+framework module MealFramework {
+  umbrella header "MealFramework.h"
+
+  export *
+  module * { export * }
+}
+
+module MealFramework.Swift {
+    header "MealFramework-Swift.h"
+}

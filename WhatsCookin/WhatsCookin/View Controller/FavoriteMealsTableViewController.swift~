@@ -1,0 +1,140 @@
+//
+//  FavoriteMealsTableViewController.swift
+//  FUDI
+//
+//  Created by Devontae Reid on 12/31/15.
+//  Copyright © 2015 Devontae Reid. All rights reserved.
+//
+
+import UIKit
+
+class FavoriteMealsTableViewController: UITableViewController {
+    
+    var meals: [Meal] {
+        return Meal.listOfMeals()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.title = "Favorite Meals"
+        // Left
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menuButton"), style: .Plain, target: self, action: "presentLeftMenuViewController")
+        
+        self.tableView.separatorColor = UIColor.peachColor()
+        self.tableView.backgroundColor = UIColor.peachColor()
+        self.tableView.registerClass(MakeAMealTableViewCell.self, forCellReuseIdentifier: "meal")
+
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        print(meals.count)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+    // Find meal in backend that match name
+    private func findMealWithName(name: String) -> Meal
+    {
+        var meals: [Meal] {
+            return Meal.listOfMeals()
+        }
+        
+        var foundMeal: Meal!
+        
+        for meal in meals
+        {
+            if meal.mealName == name
+            {
+                foundMeal = meal
+                break
+            }
+        }
+        return foundMeal
+    }
+
+}
+
+extension FavoriteMealsTableViewController
+{
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        
+        
+        if meals.count == 0
+        {
+            return 1
+        }
+        else
+        {
+            return meals.count
+        }
+        
+    }
+    
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("meal", forIndexPath: indexPath) as! MakeAMealTableViewCell
+        cell.selectionStyle = .None
+        
+        // Configure the cell...
+        if meals.count == 0
+        {
+            cell.mealTitleView.text = "You don't have any favorites yet!"
+        }
+        else
+        {
+            let meal = self.meals[indexPath.row]
+            cell.mealTitleView.text = meal.mealName
+            cell.backgroundViewForImage.image = meal.mealImage
+            cell.servingSizeLabel.text = "Servings: \(meal.servingSize)"
+            cell.caloriesLabel.text = "Calories: \(Int(meal.calories))"
+            cell.effortLabel.text = "Effort: \(meal.effortCategory)"
+            let color = cell.backgroundViewForImage.image?.getColors()
+            cell.background.backgroundColor = color?.backgroundColor
+            cell.mealTitleView.textColor = color?.primaryColor
+            cell.effortLabel.textColor = color?.detailColor
+            cell.servingSizeLabel.textColor = color?.detailColor
+            cell.caloriesLabel.textColor = color?.detailColor
+            //cell.detailTextLabel?.text = self.meals[indexPath.row].effortCategory
+        }
+        
+        return cell
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 130
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if meals.count == 0
+        {
+            
+        }
+        else
+        {
+            let meal = meals[indexPath.row]
+            mealTitleLabel.text = meal.mealName
+            mealImageView.image = meal.mealImage
+            ingredients = meal.mealIngredients
+            directions = meal.mealDirections
+            time = meal.prepTime
+            effort = meal.effortCategory
+            servingSize = meal.servingSize
+            numOfCarbs = Double(meal.carbs)
+            numOfFat = Double(meal.fat)
+            numOfProtein = Double(meal.protein)
+            
+            self.navigationController?.pushViewController(DetailViewController(), animated: true)
+        }
+        
+        
+    }
+}
